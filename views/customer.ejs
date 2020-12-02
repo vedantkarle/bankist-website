@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bankist | <%= title %></title>
+    <link rel="stylesheet" href="/css/customer.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:400,500,600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header>
+      <nav class="nav">
+        <img
+          src="/images/logo.png"
+          alt="Bankist logo"
+          class="nav__logo"
+          id="logo"
+          designer="Vedant"
+          data-version-number="3.0"
+        />
+        <ul class="nav__links">
+          <li class="nav__item">
+            <a class="nav__link nav__link--btn" href="/customers"
+              >View Customers</a
+            >
+          </li>
+          <li class="nav__item">
+            <a class="nav__link nav__link--btn" href="/transfers"
+              >Transfer Records</a
+            >
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <main class="app">
+      <div class="balance">
+        <div>
+          <p class="balance__label">Current balance</p>
+          <p class="balance__date">
+            As of <span class="date"><%= date %></span>
+          </p>
+        </div>
+        <p class="balance__value">₹<%= currentCustomer.currentBalance %></p>
+      </div>
+      <div class="customer_details">
+        <div class="details">
+          <h1>👦 Customer Details</h1>
+          <p>Customer ID : <span><%= currentCustomer._id %></span></p>
+          <p>Name : <span><%= currentCustomer.name %></span></p>
+          <p>Email : <span><%= currentCustomer.email %></span></p>
+        </div>
+        <!-- MOVEMENTS -->
+        <br />
+        <br />
+      </div>
+      <div class="operation operation--transfer">
+        <h1>Transfer money</h1>
+        <div class="transfer-details">
+          <p>Sender : <span><%= currentCustomer.name %></span></p>
+        </div>
+        <form
+          class="form form--transfer"
+          action="/customer/<%= currentCustomer._id %>/transfer"
+          method="POST"
+        >
+          <div class="input-group">
+            <label for="customer">Select Receiver :</label>
+            <select name="customer" id="customer">
+              <% for(customer of customers){ %> <%
+              if(customer.name!==currentCustomer.name){ %>
+              <option name="name" value="<%= customer.name %>">
+                <%= customer.name %>
+              </option>
+              <% } %> <% } %>
+            </select>
+            <div class="hover-border-right"></div>
+            <div class="hover-border-y"></div>
+          </div>
+
+          <div class="input-group">
+            <input
+              type="number"
+              name="amount"
+              placeholder="please enter amount ..."
+            />
+            <div class="hover-border-right"></div>
+            <div class="hover-border-y"></div>
+            <button type="submit">
+              <div class="arrow-box">
+                <div class="arrow arrow--frist">
+                  <img src="https://i.ibb.co/SyHKZF6/arrow-right.png" alt="" />
+                </div>
+                <div class="arrow arrow--hover">
+                  <img src="https://i.ibb.co/SyHKZF6/arrow-right.png" alt="" />
+                </div>
+              </div>
+            </button>
+          </div>
+        </form>
+      </div>
+      <div class="transactions">
+        <h1>💰Your Transactions</h1>
+        <% if(currentCustomer.movements.length){ %>
+          <div class="movements">
+          <% for(let movement of currentCustomer.movements){ %>
+          <div class="movements__row">
+            <div class=<%= movement.startsWith('+') ? "movements__type--deposit" : "movements__type--withdrawal"%>>
+              <% if(movement.startsWith('+')){ %> deposit <% }else{ %>
+              withdrawal <% } %>
+            </div>
+            <div class="movements__value"><%= movement %></div>
+          </div>
+          <% } %>
+        </div>
+        <%} else{%>
+          <h3>No Transactions Yet</h3>
+        <%}%>
+      </div>
+    </main>
+  </body>
+</html>
