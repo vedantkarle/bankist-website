@@ -34,6 +34,10 @@ module.exports.postTransfer = async (req, res) => {
   const receiver = await Customer.findOne({ name: req.body.customer });
   const amount = req.body.amount;
 
+  if (!amount) {
+    return res.send("Amount is needed");
+  }
+
   if (amount > sender.currentBalance) {
     return res.send("Insufficient Balance");
   }
