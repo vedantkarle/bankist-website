@@ -12,29 +12,32 @@
   </head>
   <body>
     <header>
-      <nav class="nav">
-        <img
-          src="/images/logo.png"
-          alt="Bankist logo"
-          class="nav__logo"
-          id="logo"
-          designer="Vedant"
-          data-version-number="3.0"
-        />
-        <ul class="nav__links">
-          <li class="nav__item">
-            <a class="nav__link nav__link--btn" href="/customers"
-              >View Customers</a
-            >
-          </li>
-          <li class="nav__item">
-            <a class="nav__link nav__link--btn" href="/transfers"
-              >Transfer Records</a
-            >
-          </li>
+      <nav>
+        <input type="checkbox" id="nav-toggle" />
+        <div class="logo">
+          <img src="/images/logo.png" alt="bankist" />
+        </div>
+        <ul class="links">
+          <li><a href="/customers">View Customers</a></li>
+          <li><a href="/transfers">Transfer Records</a></li>
         </ul>
+        <label for="nav-toggle" class="icon-burger">
+          <div class="line"></div>
+          <div class="line"></div>
+          <div class="line"></div>
+        </label>
       </nav>
     </header>
+    <% if(error.length){ %>
+      <div class="alert">
+        <span
+          class="closebtn"
+          onclick="this.parentElement.style.display='none';"
+          >&times;</span
+        >
+        <%= error %>
+      </div>
+      <% } %>
     <main class="app">
       <div class="balance">
         <div>

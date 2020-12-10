@@ -12,8 +12,6 @@ module.exports.getSingleCustomer = async (req, res) => {
 
   const now = new Date();
   const options = {
-    hour: "numeric",
-    minute: "numeric",
     day: "numeric",
     month: "long",
     year: "numeric",
@@ -35,11 +33,13 @@ module.exports.postTransfer = async (req, res) => {
   const amount = req.body.amount;
 
   if (!amount) {
-    return res.send("Amount is needed");
+    req.flash("error", "Amount is needed");
+    return res.redirect(`/customer/${sender._id}`);
   }
 
   if (amount > sender.currentBalance) {
-    return res.send("Insufficient Balance");
+    req.flash("error", "Insufficient Balance");
+    return res.redirect(`/customer/${sender._id}`);
   }
 
   sender.currentBalance -= amount * 1;
@@ -57,8 +57,8 @@ module.exports.postTransfer = async (req, res) => {
   await transfer.save();
   await sender.save();
   await receiver.save();
-
-  res.redirect("/transfers");
+  req.flash("success", "Transaction successfull");
+  return res.redirect("/transfers");
 };
 
 module.exports.getTransfer = async (req, res) => {

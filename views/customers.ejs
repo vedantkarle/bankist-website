@@ -12,46 +12,46 @@
   </head>
   <body>
     <header>
-      <nav class="nav">
-        <img
-          src="/images/logo.png"
-          alt="Bankist logo"
-          class="nav__logo"
-          id="logo"
-          designer="Vedant"
-          data-version-number="3.0"
-        />
-        <ul class="nav__links">
-          <li class="nav__item">
-            <a class="nav__link nav__link--btn" href="/">Home</a>
-          </li>
-          <li class="nav__item">
-            <a class="nav__link nav__link--btn" href="/transfers"
-              >Transfer Records</a
-            >
-          </li>
+      <nav>
+        <input type="checkbox" id="nav-toggle" />
+        <div class="logo">
+          <img src="/images/logo.png" alt="bankist" />
+        </div>
+        <ul class="links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/transfers">Transfer Records</a></li>
         </ul>
+        <label for="nav-toggle" class="icon-burger">
+          <div class="line"></div>
+          <div class="line"></div>
+          <div class="line"></div>
+        </label>
       </nav>
     </header>
     <div class="container">
-      <table class="content-table">
+      <table>
+        <caption>
+          Customers
+        </caption>
         <thead>
           <tr>
-            <th>Customer ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Current Balance</th>
+            <th scope="col">Customer ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Current Balance</th>
           </tr>
         </thead>
         <tbody>
           <% for(let customer of customers){ %>
           <tr>
-            <td><%= customer._id %></td>
-            <td>
+            <td scope="row" data-label="Customer ID"><%= customer._id %></td>
+            <td data-label="Name">
               <a href="/customer/<%= customer._id %>"><%= customer.name %></a>
             </td>
-            <td><%= customer.email %></td>
-            <td>₹<%= customer.currentBalance %></td>
+            <td data-label="Email"><%= customer.email %></td>
+            <td data-label="Current Balance">
+              ₹<%= customer.currentBalance %>
+            </td>
           </tr>
           <% } %>
         </tbody>
